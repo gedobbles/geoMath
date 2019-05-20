@@ -1,3 +1,3 @@
 #!/bin/bash
-cd bin
-java GeoMath
+	cd bin
+	java GeoMath
