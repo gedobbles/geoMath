@@ -99,6 +99,7 @@ public class MathGUI extends JFrame {
 
   public void redraw(){
     Graphics g = canvas1.getGraphics();
+    g.clearRect(0,0,500,500);
     koordinatensystem(g);
 
     for (Geo geo: objects) {
