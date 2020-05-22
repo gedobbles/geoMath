@@ -1,4 +1,4 @@
-CLASSES = Ebene  GeoMath  Gerade  MathGUI  Vektor
+CLASSES = GeoMath Vektor Ebene  Gerade  MathGUI
 
 all: $(CLASSES)
 
