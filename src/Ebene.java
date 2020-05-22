@@ -27,21 +27,39 @@ public class Ebene extends Geo{
 
   public boolean punktprobe(Vektor v){
     if(this.n.skalarprodukt(v) == d)
-    return true;
+      return true;
     return false;
   }
 
   public void draw(java.awt.Graphics g){
-    if(n.x1 != 0)
-      new Vektor(n.x1, 0, 0).drawE(g);
-    if(n.x2 != 0)
-      new Vektor(0, n.x2, 0).drawE(g);
-    if(n.x3 != 0)
-      new Vektor(0, 0, n.x3).drawE(g);
+    boolean[] spurpunkte = new boolean[3];
+    spurpunkte[0] = false;
+    spurpunkte[1] = false;
+    spurpunkte[2] = false;
+
+    if(n.x1 != 0){
+      spurpunkte[0] = true;
+      new Vektor(d/n.x1, 0, 0).drawE(g);
+    }
+    if(n.x2 != 0){
+      spurpunkte[1] = true;
+      new Vektor(0, d/n.x2, 0).drawE(g);
+    }
+    if(n.x3 != 0){
+      spurpunkte[2] = true;
+      new Vektor(0, 0, d/n.x3).drawE(g);
+    }
+
+    if(spurpunkte[0]&&spurpunkte[1]&&spurpunkte[2]){
+      g.setColor(new java.awt.Color(0,0,100,100));
+      int[] x = {(int) (250 - d/n.x1 * 10),(int) (250 + d/n.x2 * 20),(int) (250)};
+      int[] y = {(int) (250 + d/n.x1 * 10),(int) (250),(int) (250 - d/n.x3 * 20)};
+      g.fillPolygon(x,y,3);
+    }
   }
 
   public void input(){
-    GeoMath.print("Normalenform - 0\nVektoren     - 1");
+    GeoMath.print("Normalenform - 0\nVektoren     - 1\n");
     if(Integer.parseInt(GeoMath.scan())== 0){
       double x1, x2, x3, d;
       GeoMath.print("x1* ");
@@ -52,7 +70,8 @@ public class Ebene extends Geo{
       x3 = Double.parseDouble(GeoMath.scan());
       GeoMath.print("= ");
       d = Double.parseDouble(GeoMath.scan());
-      this(new Vektor(x1, x2, x3), d);
+      this.n = new Vektor(x1, x2, x3);
+      this.d = d;
     }else{
       Vektor s, sp1, sp2;
       s = new Vektor();
@@ -61,9 +80,11 @@ public class Ebene extends Geo{
       GeoMath.println("Stützvektor");
       s.input();
       GeoMath.println("Spannvektor 1");
-      s.input();
+      sp1.input();
       GeoMath.println("Spannvektor 2");
-      s.input();
+      sp2.input();
+      this.n = sp1.kreuzprodukt(sp2);
+      this.d = s.skalarprodukt(this.n);
     }
   }
 
